@@ -42,12 +42,22 @@ class _FirstPageState extends State<FirstPage> {
             itemCount: todoList.length,
             itemBuilder: (context, i) {
               final todo = todoList[i];
-              return Card(
-                child: InkWell(
-                  child: Text(todo, style: const TextStyle(fontSize: 30)),
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/third', arguments: todo);
-                  },
+              return Dismissible(
+                key: ObjectKey(todo),
+                direction: DismissDirection.startToEnd,
+                onDismissed: (_) {
+                  setState(() {
+                    todoList.remove(todo);
+                  });
+                },
+                child: Card(
+                  child: InkWell(
+                    child: Text(todo, style: const TextStyle(fontSize: 30)),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed('/third', arguments: todo);
+                    },
+                  ),
                 ),
               );
             }));
